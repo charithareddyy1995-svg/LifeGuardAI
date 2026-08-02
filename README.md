@@ -139,22 +139,7 @@ Press **Esc** to close the application.
 
 ## 📸 Screenshots
 
-Add screenshots inside the `assets` folder and display them here.
-
-Example:
-
-```markdown
-![Output](assets/output.png)
-```
-
-You can also include:
-
-- Webcam monitoring screen
-- Motion detection output
-- WhatsApp alert received
-- Project architecture diagram
-
----
+*Screenshots will be added soon.*
 
 ## 🚀 Future Improvements
 
