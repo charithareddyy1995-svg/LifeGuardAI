@@ -1,36 +1,199 @@
-# LifeguardAI
+# 🛡️ LifeGuardAI
 
-> Simple motion-detection alert script that beeps and sends a WhatsApp alert via Twilio when no movement is detected.
+A Python-based computer vision application that monitors a person through a webcam and detects prolonged inactivity. If no movement is detected for a specified duration, the system plays an alarm and automatically sends a WhatsApp alert using the Twilio API.
 
-- **File:** main.py
+---
 
-**Prerequisites**
-- Windows (uses `winsound` for beep).
+## 📖 About the Project
+
+LifeGuardAI is designed to improve the safety of elderly people and individuals living alone by continuously monitoring movement through a webcam. The application uses OpenCV to detect motion in real time. If inactivity exceeds a predefined threshold, the system immediately triggers an audible alarm and sends an emergency WhatsApp notification to a registered contact.
+
+This project demonstrates the practical use of computer vision and cloud communication APIs for real-world safety applications.
+
+---
+
+## ✨ Features
+
+- 📷 Real-time webcam monitoring
+- 🚶 Motion detection using OpenCV
+- ⏱️ Inactivity detection based on a configurable time threshold
+- 🔔 Audible alarm using Windows Beep
+- 📱 Automatic WhatsApp alert using Twilio API
+- ⚙️ Easy configuration of alert duration
+- 💻 Lightweight and simple Python implementation
+
+---
+
+## 🛠️ Technology Stack
+
 - Python 3.8+
-- A webcam connected and accessible.
-- A Twilio account with WhatsApp sandbox configured.
+- OpenCV
+- Twilio API
+- Winsound (Windows)
+- Computer Vision
 
-**Install**
+---
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\activate
-pip install opencv-python twilio
+## 📂 Project Structure
+
+```
+LifeGuardAI/
+│── README.md
+│── main.py
+│── requirements.txt
+│── .gitignore
+│── LICENSE
+│── assets/
+│     ├── architecture.png
+│     ├── output.png
+│     └── demo.gif
 ```
 
-**Configuration**
-- Open `main.py` and replace `YOUR_SID` and `YOUR_TOKEN` with your Twilio `account_sid` and `auth_token`.
-- Replace the `to` phone number in `send_whatsapp()` with your WhatsApp-enabled number (international format).
-- Ensure your Twilio WhatsApp sandbox `from` number is correct (`+14155238886` is the default sandbox).
+---
 
-**Run**
+## ⚙️ Prerequisites
 
-```powershell
+Before running the project, ensure you have:
+
+- Windows Operating System
+- Python 3.8 or later
+- Webcam connected and accessible
+- Twilio Account
+- Twilio WhatsApp Sandbox configured
+
+---
+
+## 📦 Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/your-username/LifeGuardAI.git
+```
+
+Move into the project directory:
+
+```bash
+cd LifeGuardAI
+```
+
+Create a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate the virtual environment:
+
+```bash
+.\.venv\Scripts\activate
+```
+
+Install the required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## ⚙️ Configuration
+
+Open `main.py` and update the following values:
+
+- Twilio Account SID
+- Twilio Auth Token
+- Recipient WhatsApp Number
+- Twilio WhatsApp Sandbox Number (if different)
+
+Example:
+
+```python
+account_sid = "YOUR_ACCOUNT_SID"
+auth_token = "YOUR_AUTH_TOKEN"
+```
+
+---
+
+## ▶️ Running the Project
+
+Run the application:
+
+```bash
 python main.py
 ```
 
-- Press `Esc` to quit the window.
+The webcam window will open and begin monitoring for movement.
 
-**Notes**
-- `THRESHOLD` in `main.py` is set to `10` seconds for testing — change to a larger value (e.g., `1200`) for production.
-- If WhatsApp messages fail, check your Twilio credentials and sandbox configuration.
+Press **Esc** to close the application.
+
+---
+
+## ⚙️ Configuration Notes
+
+- The inactivity threshold is currently set to **10 seconds** for testing.
+- For real-world usage, increase the threshold (for example, 300–1200 seconds).
+- Ensure your Twilio WhatsApp Sandbox is activated before testing alerts.
+
+---
+
+## 📸 Screenshots
+
+Add screenshots inside the `assets` folder and display them here.
+
+Example:
+
+```markdown
+![Output](assets/output.png)
+```
+
+You can also include:
+
+- Webcam monitoring screen
+- Motion detection output
+- WhatsApp alert received
+- Project architecture diagram
+
+---
+
+## 🚀 Future Improvements
+
+- Face recognition
+- Human pose estimation
+- Heart rate estimation
+- Breathing rate estimation
+- AI-based anomaly detection
+- Azure AI integration
+- Power BI dashboard
+- SMS and Email alerts
+- Mobile application
+- Cloud deployment
+
+---
+
+## 🤝 Contributing
+
+Contributions, suggestions, and improvements are welcome.
+
+1. Fork the repository.
+2. Create a new feature branch.
+3. Commit your changes.
+4. Push the branch.
+5. Open a Pull Request.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 👩‍💻 Author
+
+**Nandhagiri Charitha Reddy**
+
+- **GitHub:** [charithareddyy1995-svg](https://github.com/charithareddyy1995-svg)
+- **LinkedIn:** [Charitha Reddy Nandhagiri](https://www.linkedin.com/in/charithareddynandhagiri)
+
+⭐ If you found this project useful, consider giving it a star on GitHub!
