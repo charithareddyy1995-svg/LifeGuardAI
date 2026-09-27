@@ -1,184 +1,359 @@
 # 🛡️ LifeGuardAI
 
-A Python-based computer vision application that monitors a person through a webcam and detects prolonged inactivity. If no movement is detected for a specified duration, the system plays an alarm and automatically sends a WhatsApp alert using the Twilio API.
+### AI-Powered Computer Vision System for Prolonged Inactivity Detection
+
+LifeGuardAI is a Python-based computer vision application that uses a webcam and MediaPipe Pose Landmarker to monitor human movement in real time.
+
+The system analyzes human pose landmarks across consecutive video frames and calculates movement between frames. If significant movement is not detected for a configurable period, LifeGuardAI identifies prolonged inactivity, displays a visual warning, and triggers an audible alarm.
+
+The project is designed as a prototype for non-wearable safety monitoring of people who may require assistance when living alone.
 
 ---
 
-## 📖 About the Project
+## 🎯 Problem Statement
 
-LifeGuardAI is designed to improve the safety of elderly people and individuals living alone by continuously monitoring movement through a webcam. The application uses OpenCV to detect motion in real time. If inactivity exceeds a predefined threshold, the system immediately triggers an audible alarm and sends an emergency WhatsApp notification to a registered contact.
+People living alone, particularly elderly individuals or people who require supervision, may experience situations where prolonged inactivity could indicate that assistance may be needed.
 
-This project demonstrates the practical use of computer vision and cloud communication APIs for real-world safety applications.
+Traditional monitoring approaches can depend on wearable devices or continuous manual supervision.
+
+LifeGuardAI explores a computer-vision-based approach that uses a webcam to monitor movement without requiring a wearable device.
+
+---
+
+## 💡 Solution
+
+LifeGuardAI continuously captures video through a webcam and uses MediaPipe Pose Landmarker to detect human body landmarks.
+
+The detected landmarks are compared between consecutive frames to estimate movement.
+
+If the system detects no significant movement for the configured inactivity duration, it:
+
+1. Detects prolonged inactivity
+2. Displays an on-screen warning
+3. Triggers an audible alarm
+
+The architecture is designed so additional notification and monitoring features can be integrated in future versions.
 
 ---
 
 ## ✨ Features
 
 - 📷 Real-time webcam monitoring
-- 🚶 Motion detection using OpenCV
-- ⏱️ Inactivity detection based on a configurable time threshold
-- 🔔 Audible alarm using Windows Beep
-- 📱 Automatic WhatsApp alert using Twilio API
-- ⚙️ Easy configuration of alert duration
-- 💻 Lightweight and simple Python implementation
+- 🧍 Human pose landmark detection
+- 🧠 Frame-to-frame movement analysis
+- ⏱️ Configurable inactivity threshold
+- 🚨 Prolonged inactivity detection
+- 🔔 Audible alarm
+- 🖥️ Real-time status display
+- 🪶 Local computer-vision processing
+- 🚫 No wearable device required
 
 ---
 
-## 🛠️ Technology Stack
+## 🧠 How It Works
 
-- Python 3.8+
-- OpenCV
-- Twilio API
-- Winsound (Windows)
-- Computer Vision
+```text
+                    ┌─────────────────┐
+                    │     Webcam      │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │  Video Frame    │
+                    │    Capture      │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ MediaPipe Pose  │
+                    │   Landmarker    │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ Pose Landmarks  │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ Movement        │
+                    │ Calculation     │
+                    └────────┬────────┘
+                             │
+                    ┌────────┴────────┐
+                    │                 │
+                    ▼                 ▼
+             Movement Detected   No Significant
+                    │              Movement
+                    ▼                 │
+              Reset Timer             ▼
+                              Inactivity Timer
+                                    │
+                                    ▼
+                           Threshold Exceeded?
+                                    │
+                                    ▼
+                              🚨 ALERT
+                                    │
+                                    ▼
+                              🔔 Alarm
+🔬 Movement Detection
 
----
+LifeGuardAI uses pose landmarks generated by MediaPipe Pose Landmarker rather than simply checking whether a person is visible.
 
-## 📂 Project Structure
+The system compares the position of pose landmarks between consecutive frames.
 
-```
+The movement of individual landmarks is estimated using Euclidean distance:
+
+distance = √((x₂ - x₁)² + (y₂ - y₁)²)
+
+The average movement across the detected landmarks is used to determine whether significant movement has occurred.
+
+When movement is detected, the inactivity timer is reset.
+
+When movement remains below the configured movement threshold, the inactivity timer continues.
+
+If the inactivity duration exceeds the configured threshold, the system generates an alert.
+
+🛠️ Technology Stack
+Technology	Purpose
+Python	Core application
+OpenCV	Webcam and image processing
+MediaPipe	Human pose detection
+MediaPipe Tasks API	Pose Landmarker inference
+Windows Winsound	Audible alarm
+Computer Vision	Movement analysis
+📂 Project Structure
 LifeGuardAI/
-│── README.md
-│── main.py
-│── requirements.txt
-│── .gitignore
-│── LICENSE
-│── assets/
-│     ├── architecture.png
-│     ├── output.png
-│     └── demo.gif
-```
+│
+├── assets/
+│   ├── normal-monitoring.png
+│   ├── inactivity-detection.png
+│   └── inactivity-alert.png
+│
+├── models/
+│   └── pose_landmarker_full.task
+│
+├── LifeGuardAI.py
+├── requirements.txt
+├── .gitignore
+├── LICENSE
+└── README.md
+⚙️ Requirements
 
----
+Before running LifeGuardAI, make sure you have:
 
-## ⚙️ Prerequisites
-
-Before running the project, ensure you have:
-
-- Windows Operating System
-- Python 3.8 or later
-- Webcam connected and accessible
-- Twilio Account
-- Twilio WhatsApp Sandbox configured
-
----
-
-## 📦 Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/your-username/LifeGuardAI.git
-```
-
-Move into the project directory:
-
-```bash
+Windows operating system
+Python 3.10 or later
+Webcam
+Working internet connection for initial setup
+MediaPipe
+OpenCV
+📦 Installation
+1. Clone the repository
+git clone https://github.com/charithareddyy1995-svg/LifeGuardAI.git
+2. Enter the project directory
 cd LifeGuardAI
-```
-
-Create a virtual environment:
-
-```bash
+3. Create a virtual environment
 python -m venv .venv
-```
+4. Activate the virtual environment
 
-Activate the virtual environment:
+For Windows PowerShell:
 
-```bash
-.\.venv\Scripts\activate
-```
-
-Install the required packages:
-
-```bash
+.\.venv\Scripts\Activate.ps1
+5. Install dependencies
 pip install -r requirements.txt
-```
+🤖 MediaPipe Pose Model
 
----
+LifeGuardAI uses the MediaPipe Pose Landmarker model.
 
-## ⚙️ Configuration
+The required model file is:
 
-Open `main.py` and update the following values:
+models/pose_landmarker_full.task
 
-- Twilio Account SID
-- Twilio Auth Token
-- Recipient WhatsApp Number
-- Twilio WhatsApp Sandbox Number (if different)
+Make sure the model is present at the above location before running the application.
 
-Example:
+The application loads the model using the MediaPipe Tasks API.
 
-```python
-account_sid = "YOUR_ACCOUNT_SID"
-auth_token = "YOUR_AUTH_TOKEN"
-```
+▶️ Running the Application
 
----
+Run:
 
-## ▶️ Running the Project
+python LifeGuardAI.py
 
-Run the application:
+The webcam window will open and begin monitoring.
 
-```bash
-python main.py
-```
+Movement Detected
 
-The webcam window will open and begin monitoring for movement.
+When significant movement is detected:
 
-Press **Esc** to close the application.
+STATUS: MOVEMENT DETECTED
+Inactivity Detected
 
----
+When significant movement stops, the inactivity timer begins:
 
-## ⚙️ Configuration Notes
+NO MOVEMENT: 5.2s
+Prolonged Inactivity
 
-- The inactivity threshold is currently set to **10 seconds** for testing.
-- For real-world usage, increase the threshold (for example, 300–1200 seconds).
-- Ensure your Twilio WhatsApp Sandbox is activated before testing alerts.
+When the configured inactivity threshold is exceeded:
 
----
+ALERT: PROLONGED INACTIVITY!
 
-## 📸 Screenshots
+The system also triggers an audible alarm.
 
-*Screenshots will be added soon.*
+Press ESC to stop the application.
 
-## 🚀 Future Improvements
+⚙️ Configuration
 
-- Face recognition
-- Human pose estimation
-- Heart rate estimation
-- Breathing rate estimation
-- AI-based anomaly detection
-- Azure AI integration
-- Power BI dashboard
-- SMS and Email alerts
-- Mobile application
-- Cloud deployment
+The main detection parameters are defined in LifeGuardAI.py.
 
----
+Inactivity Threshold
+INACTIVITY_THRESHOLD = 10
 
-## 🤝 Contributing
+The current value is set to 10 seconds for testing.
+
+For example:
+
+INACTIVITY_THRESHOLD = 60
+
+would configure the system to trigger after approximately one minute of detected inactivity.
+
+Movement Threshold
+MOVEMENT_THRESHOLD = 0.015
+
+This determines the minimum average pose-landmark movement considered significant.
+
+The threshold may require adjustment depending on:
+
+Camera position
+Distance from the camera
+Lighting conditions
+Person's movement
+Camera stability
+Pose estimation accuracy
+📸 Demo
+Normal Monitoring
+
+LifeGuardAI detects the person's pose and monitors movement in real time.
+
+Inactivity Detection
+
+When significant movement is not detected, the inactivity timer increases.
+
+Prolonged Inactivity Alert
+
+When the inactivity threshold is exceeded, LifeGuardAI displays an alert and triggers the audible alarm.
+
+🧪 Testing
+
+The prototype can be tested using the following scenarios:
+
+Test Scenario	Expected Result
+Person moves normally	Movement detected
+Person stops moving	Inactivity timer starts
+Person remains inactive	Timer continues increasing
+Inactivity exceeds threshold	Visual alert appears
+Alert threshold is reached	Audible alarm is triggered
+Person moves again	Monitoring timer resets
+🔐 Security
+
+Do not store API credentials, passwords, or other sensitive information directly in the source code.
+
+If external notification services such as Twilio are added in future versions, credentials should be stored using environment variables rather than committed to GitHub.
+
+Sensitive information should never be pushed to the repository.
+
+🚨 Current Limitations
+
+LifeGuardAI is currently a computer-vision prototype and is not a certified medical or emergency-response system.
+
+Current limitations include:
+
+Requires a functioning webcam
+Performance depends on camera placement
+Pose detection can be affected by lighting and occlusion
+Small movements may affect the movement score
+Prolonged inactivity does not necessarily indicate an emergency
+The current implementation does not independently determine whether a person has fallen
+The system should not be used as the sole emergency monitoring mechanism
+🚀 Future Improvements
+Computer Vision
+🧍 Fall detection
+🦴 Advanced pose-based activity recognition
+🚶 Activity classification
+👤 Multi-person monitoring
+🤖 AI-based anomaly detection
+🌡️ Environmental sensor integration
+Alert System
+📱 WhatsApp emergency notifications
+📩 SMS notifications
+📧 Email notifications
+👨‍👩‍👧 Multiple emergency contacts
+🔔 Configurable alarm patterns
+AI and Machine Learning
+Personalized activity baselines
+Temporal activity analysis
+Machine-learning-based anomaly detection
+Long-term activity pattern analysis
+Context-aware emergency detection
+Cloud and Dashboard
+☁️ Cloud deployment
+📊 Web monitoring dashboard
+📈 Activity history and analytics
+🗄️ Event logging and database integration
+🔐 User authentication
+Application
+📱 Mobile application
+🌐 Remote monitoring
+⚙️ User-configurable settings
+🔄 Background monitoring
+📊 Development Status
+Component	Status
+Webcam Monitoring	✅ Implemented
+Pose Detection	✅ Implemented
+Movement Analysis	✅ Implemented
+Inactivity Detection	✅ Implemented
+Visual Alert	✅ Implemented
+Audible Alarm	✅ Implemented
+WhatsApp Notification	🚧 Planned
+Event Logging	🚧 Planned
+Fall Detection	🚧 Planned
+Cloud Dashboard	🚧 Planned
+Mobile Application	🚧 Planned
+⚠️ Disclaimer
+
+LifeGuardAI is an academic and prototype project created to demonstrate computer vision, pose estimation, and real-time monitoring concepts.
+
+It is not a medical device and should not be relied upon as the sole mechanism for emergency detection, medical monitoring, or personal safety.
+
+🤝 Contributing
 
 Contributions, suggestions, and improvements are welcome.
 
-1. Fork the repository.
-2. Create a new feature branch.
-3. Commit your changes.
-4. Push the branch.
-5. Open a Pull Request.
-
----
-
-## 📄 License
+Fork the repository
+Create a feature branch
+Make your changes
+Commit your changes
+Push the branch
+Open a Pull Request
+📄 License
 
 This project is licensed under the MIT License.
 
----
+See the LICENSE file for details.
 
-## 👩‍💻 Author
+👩‍💻 Author
 
-**Nandhagiri Charitha Reddy**
+Nandhagiri Charitha Reddy
 
-- **GitHub:** [charithareddyy1995-svg](https://github.com/charithareddyy1995-svg)
-- **LinkedIn:** [Charitha Reddy Nandhagiri](https://www.linkedin.com/in/charithareddynandhagiri)
+Computer Science and Engineering Student
 
-⭐ If you found this project useful, consider giving it a star on GitHub!
+GitHub:
+https://github.com/charithareddyy1995-svg
+
+LinkedIn:
+https://www.linkedin.com/in/charithareddynandhagiri
+
+⭐ Support
+
+If you find this project useful, consider giving the repository a ⭐ on GitHub.
